@@ -11,17 +11,53 @@
     position: relative !important;
 }
 
-.folium-map .leaflet-control.rosi-logo,
-.folium-map .leaflet-control.obs-logo,
-.folium-map .leaflet-control.icons-legend,
-.folium-map .leaflet-control.polos-legend {
-    position: absolute;
-    z-index: 1000;
+.custom-float-images .rosi-logo,
+.custom-float-images .obs-logo,
+.custom-float-images .icons-legend,
+.custom-float-images .polos-legend {
+    z-index: 400;
 }
 
-.folium-map .leaflet-control.rosi-logo img,
-.folium-map .leaflet-control.obs-logo img,
-.folium-map .leaflet-control.icons-legend img,
-.folium-map .leaflet-control.polos-legend img {
-    position: absolute;
+
+.folium-map table {
+    border-collapse: collapse;
+    border: 1px solid rgba(255, 255, 255, 0);
+    width: 100%;
+}
+
+.folium-map thead {
+    color: white;
+    text-align: center;
+}
+
+.folium-map tbody {
+    color: white;
+}
+
+.folium-map td {
+    border: 7px solid rgba(255, 255, 255, 1);
+    padding: 8px;
+    text-align: center;
+    background-color: #262626;
+}
+
+.folium-map th {
+    border: 7px solid rgba(255, 255, 255, 1);
+    padding: 10px;
+    text-align: center;
+    background-color: #090909;
+}
+
+.folium-map tr {
+    background-color: #262626;
+}
+
+
+.folium-map .leaflet-pane.leaflet-map-pane {
+    width: 100%;
+    height: 100%;
+}
+
+.folium-map .leaflet-popup {
+    position: absolute !important;
 }

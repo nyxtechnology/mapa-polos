@@ -87,10 +87,10 @@ logo_obs = 'https://bigdatastorageobs.blob.core.windows.net/containerobs/oni_pol
 # Substitua os FloatImage por um template personalizado
 custom_image_html = f"""
 <div class="custom-float-images">
-    <img src="{logo_rosi}" class="rosi-logo" style="position: fixed; top: 88px; left: 80px; width: 300px; height: auto; z-index: 1000;">
-    <img src="{logo_obs}" class="obs-logo" style="position: fixed; top: 25px; right: 180px; width: 300px; height: auto; z-index: 1000;">
-    <img src="{logo_legenda_icones}" class="icons-legend" style="position: fixed; bottom: 8px; right: 78px; height: 780px; width: auto; z-index: 1000;">
-    <img src="{logo_legenda_polos}" class="polos-legend" style="position: fixed; bottom: 5px; left: 0; height: 300px; width: auto; z-index: 1000;">
+    <img src="{logo_rosi}" class="rosi-logo" style="position: fixed; top: 88px; left: 80px; width: 300px; height: auto;">
+    <img src="{logo_obs}" class="obs-logo" style="position: fixed; top: 25px; right: 180px; width: 300px; height: auto;">
+    <img src="{logo_legenda_icones}" class="icons-legend" style="position: fixed; bottom: 8px; right: 78px; height: 780px; width: auto; ">
+    <img src="{logo_legenda_polos}" class="polos-legend" style="position: fixed; bottom: 5px; left: 0; height: 300px; width: auto; ">
 </div>
 """
 
@@ -234,13 +234,6 @@ for index, row in df_merged.iterrows():
     {df_html}
     </div>
     '''
-
-    df_html = df_html.replace('<table ', '<table style="border-collapse: collapse; border: 1px solid rgba(255, 255, 255, 0); width: 100%;" ')
-    df_html = df_html.replace('<thead>', '<thead style="color: white; text-align: center;">')
-    df_html = df_html.replace('<tbody>', '<tbody style="color: white;">')
-    df_html = df_html.replace('<td>', '<td style="border: 7px solid rgba(255, 255, 255, 1); padding: 8px; text-align: center; background-color: #262626;">')
-    df_html = df_html.replace('<th>', '<th style="border: 7px solid rgba(255, 255, 255, 1); padding: 10px; text-align: center; background-color: #090909">')
-    df_html = df_html.replace('<tr style="background-color: white">', '<tr style="background-color: #262626">')
 
     #### Configurar e inserir os icones no mapa ####
 
