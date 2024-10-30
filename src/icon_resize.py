@@ -14,8 +14,6 @@ class IconResize(MacroElement):
     function adjustIconSize() {
         var zoom = {{ this._parent.get_name() }}.getZoom();
         var icons = document.getElementsByClassName('leaflet-marker-icon');
-                    console.log(zoom)
-                    console.log(icons[0])
         for (var i = 0; i < icons.length; i++) {
 
             var initialSize = parseInt(icons[i].style.width);

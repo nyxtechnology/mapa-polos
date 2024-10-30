@@ -1,0 +1,27 @@
+.folium-map .leaflet-bar .tag-filter-tags-container ul.header, 
+.folium-map .leaflet-bar .tag-filter-tags-container ul {
+    width: unset !important;
+}
+
+.folium-map .leaflet-bar .tag-filter-tags-container ul li a {
+    color: black;
+}
+
+.folium-map {
+    position: relative !important;
+}
+
+.folium-map .leaflet-control.rosi-logo,
+.folium-map .leaflet-control.obs-logo,
+.folium-map .leaflet-control.icons-legend,
+.folium-map .leaflet-control.polos-legend {
+    position: absolute;
+    z-index: 1000;
+}
+
+.folium-map .leaflet-control.rosi-logo img,
+.folium-map .leaflet-control.obs-logo img,
+.folium-map .leaflet-control.icons-legend img,
+.folium-map .leaflet-control.polos-legend img {
+    position: absolute;
+}

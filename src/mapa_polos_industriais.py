@@ -63,6 +63,12 @@ df_merged['sk'] = df_merged['uf'] + '_' + df_merged['mesorregiao'] + '_' + df_me
 
 mapa = folium.Map([-15.856, -47.856], tiles=folium.TileLayer("Cartodb dark_matter", no_wrap = True), zoom_start=5)
 
+# Adiciona arquivos js externos.
+mapa.get_root().header.add_child(folium.Element("""
+    <link rel="stylesheet" href="styles/custom.css">
+    <script defer src="scripts/custom.js"></script>
+"""))
+
 # Adicionar o controle de redimensionamento dos ícones
 IconResize().add_to(mapa)
 
@@ -77,11 +83,19 @@ logo_obs = 'https://bigdatastorageobs.blob.core.windows.net/containerobs/oni_pol
 
 ## Inserir a imagem no mapa
 
-FloatImage (logo_rosi, bottom = 88, left = 80, height = 'auto', width = '300px').add_to(mapa)
-FloatImage (logo_obs, bottom = 5, left = 80, height = 'auto', width = '300px').add_to(mapa)
-FloatImage (logo_legenda_icones, bottom = 8, left = 78, height = '780px', width = 'auto').add_to(mapa)
-FloatImage (logo_legenda_polos, bottom = 5, left = 0, height = '300px', width = 'auto').add_to(mapa)
+# Adicione uma classe personalizada para cada imagem
+# Substitua os FloatImage por um template personalizado
+custom_image_html = f"""
+<div class="custom-float-images">
+    <img src="{logo_rosi}" class="rosi-logo" style="position: fixed; top: 88px; left: 80px; width: 300px; height: auto; z-index: 1000;">
+    <img src="{logo_obs}" class="obs-logo" style="position: fixed; top: 25px; right: 180px; width: 300px; height: auto; z-index: 1000;">
+    <img src="{logo_legenda_icones}" class="icons-legend" style="position: fixed; bottom: 8px; right: 78px; height: 780px; width: auto; z-index: 1000;">
+    <img src="{logo_legenda_polos}" class="polos-legend" style="position: fixed; bottom: 5px; left: 0; height: 300px; width: auto; z-index: 1000;">
+</div>
+"""
 
+# Adicione ao mapa
+mapa.get_root().html.add_child(folium.Element(custom_image_html))
 # Inserir o botao de tela cheia
 
 folium.plugins.Fullscreen(
