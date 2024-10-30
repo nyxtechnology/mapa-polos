@@ -1,18 +1,17 @@
 #### Carregar as bibliotecas ####
 
 import folium
-from folium.plugins import FloatImage
-from folium.plugins import TagFilterButton
+from folium.plugins import FloatImage, TagFilterButton
 import pandas as pd
 import requests as re
+from icon_resize import IconResize
 
 #### Carregar bases de dados ####
 
-df_imagem = pd.read_excel("G:/Drives compartilhados/OBSERVATORIO/4. PROJETOS/P&D/Polos Industriais/arquivos/dim_polo_imagem.xlsx")
+df_imagem = pd.read_excel("./data/dim_polo_imagem.xlsx")
 
-df_polos_br = pd.read_excel('G:/Drives compartilhados/OBSERVATORIO/4. PROJETOS/P&D/Polos Industriais/arquivos/polos_municipios_coordenadas2.xlsx')
-
-df_detalhamento = pd.read_csv('G:/Drives compartilhados/OBSERVATORIO/4. PROJETOS/P&D/Polos Industriais/data/df_detalhamento.csv', sep = ';', decimal = ',')
+df_polos_br = pd.read_excel("./data/polos_municipios_coordenadas2.xlsx")
+df_detalhamento = pd.read_csv("./data/df_detalhamento.csv", sep=';', decimal=',')
 
 #### Ajustes na df_imagem ####
 
@@ -63,6 +62,9 @@ df_merged['sk'] = df_merged['uf'] + '_' + df_merged['mesorregiao'] + '_' + df_me
 # Criar o mapa
 
 mapa = folium.Map([-15.856, -47.856], tiles=folium.TileLayer("Cartodb dark_matter", no_wrap = True), zoom_start=5)
+
+# Adicionar o controle de redimensionamento dos ícones
+IconResize().add_to(mapa)
 
 # Inserir uma imagem personalizada no mapa
 
@@ -271,4 +273,4 @@ for index, row in df_merged.iterrows():
 
 #### Salvar o arquivo html do mapa ####
 
-mapa.save("G:/Drives compartilhados/OBSERVATORIO/4. PROJETOS/P&D/Polos Industriais/painel/polos_teste_mapa_interativo_teste.html")
+mapa.save("./build/polos_teste_mapa_interativo_teste.html")
