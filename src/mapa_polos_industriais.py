@@ -4,7 +4,6 @@ import folium
 from folium.plugins import FloatImage, TagFilterButton
 import pandas as pd
 import requests as re
-from icon_resize import IconResize
 
 #### Carregar bases de dados ####
 
@@ -68,9 +67,6 @@ mapa.get_root().header.add_child(folium.Element("""
     <link rel="stylesheet" href="styles/custom.css">
     <script defer src="scripts/custom.js"></script>
 """))
-
-# Adicionar o controle de redimensionamento dos ícones
-IconResize().add_to(mapa)
 
 # Inserir uma imagem personalizada no mapa
 
