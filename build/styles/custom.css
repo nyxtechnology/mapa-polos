@@ -17,6 +17,7 @@
 
 .folium-map .leaflet-bar .tag-filter-tags-container ul li a {
     color: black;
+    pointer-events: none;
 }
 
 .folium-map .leaflet-bar .tag-filter-tags-container ul li span {

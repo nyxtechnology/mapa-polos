@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
         async init() {
             await this.waitForMap();
             this.setupMapComponents();
+            await this.setupFilterEvents();
             this.setupEventListeners();
         }
 
@@ -51,10 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (mapId && window[mapId]) {
                         clearInterval(checkMap);
                         this.map = window[mapId];
-                        console.log('Mapa encontrado:', this.map);
                         resolve();
-                    } else {
-                        console.log('Aguardando mapa ser inicializado...');
                     }
                 }, 100);
             });
@@ -106,7 +104,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     cells.forEach(cell => {
                         
                         if (cell.textContent.trim() === 'Sim') {
-                            console.log(cell.textContent.trim())
                             cell.style.backgroundColor = '#00A550';
                         }
                     });
@@ -115,17 +112,54 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         async setupFilterEvents() {
-            // Aguardar o container de filtros ser carregado
-            const filterContainer = await this.waitForElement('.tag-filter-tags-container');
-            if (filterContainer) {
-                filterContainer.addEventListener('click', (e) => {
-                    const rippleElement = e.target.closest('.ripple');
-                    if (rippleElement && !rippleElement.closest('.header')) {
-                        const uf = rippleElement.getAttribute('data-value');
-                        this.zoomToState(uf);
-                    }
-                });
-            }
+            // Tentar múltiplas vezes até encontrar o container
+            const maxAttempts = 10;
+            let attempts = 0;
+            
+            const trySetupFilter = setInterval(async () => {
+                attempts++;
+                
+                const filterContainer = document.querySelector('.tag-filter-tags-container');
+                if (filterContainer) {
+                    clearInterval(trySetupFilter);
+    
+                    // Observar mudanças no container de filtros
+                    const observer = new MutationObserver((mutations) => {
+                        mutations.forEach((mutation) => {
+                            if (mutation.type === 'childList') {
+                                const rippleElements = filterContainer.querySelectorAll('.ripple');
+                                rippleElements.forEach(element => {
+                                    if (!element.dataset.hasClickHandler) {
+                                        element.dataset.hasClickHandler = 'true';
+                                        element.addEventListener('click', (e) => {
+                                            if (!element.closest('.header')) {
+                                                // Verificar se o elemento está marcado
+                                                const isChecked = element.getAttribute('data-checked') === 'checked';
+                                                
+                                                if (isChecked) {
+                                                    const uf = element.getAttribute('data-value');
+                                                    if (uf && this.ufBounds[uf]) {
+                                                        this.zoomToState(uf);
+                                                    }
+                                                } 
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    });
+    
+                    observer.observe(filterContainer, {
+                        childList: true,
+                        subtree: true
+                    });
+                    
+                } else if (attempts >= maxAttempts) {
+                    console.log('Não foi possível encontrar o container de filtros após várias tentativas');
+                    clearInterval(trySetupFilter);
+                }
+            }, 500);
         }
 
         setupZoomEvents() {
