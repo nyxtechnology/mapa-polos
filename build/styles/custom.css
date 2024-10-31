@@ -78,3 +78,38 @@
 .folium-map .leaflet-popup {
     position: absolute !important;
 }
+
+
+.folium-map .easy-button-button::after {
+    content: "Polos";
+    display: inline-block;
+    font-size: 12px;
+    color: black;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    white-space: nowrap;
+}
+
+/* Estilo para o botão de setores (segundo botão) */
+.folium-map .leaflet-bar:nth-child(2) .easy-button-button::after {
+    content: "Estados";
+    right: 3px; /* Ajuste conforme necessário */
+}
+
+/* Estilo para o botão de tipos de polo (terceiro botão) */
+.folium-map .leaflet-bar:nth-child(3) .easy-button-button::after {
+    content: "Setores";
+    right: 3px; /* Ajuste conforme necessário */
+}
+
+/* Garantir que os botões não fiquem sobrepostos */
+.folium-map .leaflet-bar .easy-button-button {
+    position: relative;
+    width: 50px !important;
+    height: 50px;
+}
+
+.folium-map .leaflet-bar .tag-filter-tags-container {
+    left: 50px;
+}

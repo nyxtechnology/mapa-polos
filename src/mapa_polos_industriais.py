@@ -117,14 +117,16 @@ categorias_polos.sort()
 
 # Inserir os botoes de filtro nos mapas
 
-TagFilterButton(categorias_uf,icon = '<img src="https://bigdatastorageobs.blob.core.windows.net/containerobs/oni_polos/1000056285.png?sv=2021-10-04&st=2024-10-24T19%3A08%3A21Z&se=2025-10-25T19%3A08%3A00Z&sr=b&sp=r&sig=y5rTx7jKj9TqFTKsOVpsLYoORgvBRVrtm0txhilKlNk%3D" width="20" height="20">',
+TagFilterButton(categorias_uf,
+                icon = '<img src="https://bigdatastorageobs.blob.core.windows.net/containerobs/oni_polos/1000056285.png?sv=2021-10-04&st=2024-10-24T19%3A08%3A21Z&se=2025-10-25T19%3A08%3A00Z&sr=b&sp=r&sig=y5rTx7jKj9TqFTKsOVpsLYoORgvBRVrtm0txhilKlNk%3D" width="30" height="30">',
+                name='Estados',
                 clear_text = 'Limpar filtros',
                 filter_on_every_click=True,
                 open_popup_on_hover=False
                 ).add_to(mapa)
 # TagFilterButton(categorias_mesorregiao, icon = 'fa-filter', clear_text = 'Limpar filtros', filter_on_every_click=True, open_popup_on_hover=False).add_to(mapa)
-TagFilterButton(categorias_arrajo_setorial, icon = '<img src="https://bigdatastorageobs.blob.core.windows.net/containerobs/oni_polos/1000056286.png?sv=2021-10-04&st=2024-10-24T19%3A08%3A59Z&se=2025-10-25T19%3A08%3A00Z&sr=b&sp=r&sig=k9xcXHsVy2VCZv6mc9JSF8zAWacRYJ9hygGdsxBfAZs%3D" width="20" height="20">', clear_text = 'Limpar filtros', filter_on_every_click=True, open_popup_on_hover=False).add_to(mapa)
-TagFilterButton(categorias_polos, icon = '<img src="https://bigdatastorageobs.blob.core.windows.net/containerobs/oni_polos/1000056287.png?sv=2021-10-04&st=2024-10-24T19%3A09%3A21Z&se=2025-10-25T19%3A09%3A00Z&sr=b&sp=r&sig=jOsC5w3BwBUPp%2BXSWxqcyLd3TiVefT%2Fk3ZUSMo0qb74%3D" width="20" height="20">', clear_text = 'Limpar filtros', filter_on_every_click=True, open_popup_on_hover=False).add_to(mapa)
+TagFilterButton(categorias_arrajo_setorial, icon = '<img src="https://bigdatastorageobs.blob.core.windows.net/containerobs/oni_polos/1000056286.png?sv=2021-10-04&st=2024-10-24T19%3A08%3A59Z&se=2025-10-25T19%3A08%3A00Z&sr=b&sp=r&sig=k9xcXHsVy2VCZv6mc9JSF8zAWacRYJ9hygGdsxBfAZs%3D" width="30" height="30">', clear_text = 'Limpar filtros', filter_on_every_click=True, open_popup_on_hover=False).add_to(mapa)
+TagFilterButton(categorias_polos, icon = '<img src="https://bigdatastorageobs.blob.core.windows.net/containerobs/oni_polos/1000056287.png?sv=2021-10-04&st=2024-10-24T19%3A09%3A21Z&se=2025-10-25T19%3A09%3A00Z&sr=b&sp=r&sig=jOsC5w3BwBUPp%2BXSWxqcyLd3TiVefT%2Fk3ZUSMo0qb74%3D" width="30" height="30">', clear_text = 'Limpar filtros', filter_on_every_click=True, open_popup_on_hover=False).add_to(mapa)
 
 geojson_br = re.get(
     "https://raw.githubusercontent.com/giuliano-macedo/geodata-br-states/refs/heads/main/geojson/br_states.json"
