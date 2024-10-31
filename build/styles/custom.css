@@ -1,28 +1,52 @@
-.folium-map .leaflet-bar .tag-filter-tags-container ul.header, 
-.folium-map .leaflet-bar .tag-filter-tags-container ul {
-    width: unset !important;
-}
-
-.folium-map .leaflet-bar .tag-filter-tags-container ul li a {
-    color: black;
-}
-
 .folium-map {
     position: relative !important;
 }
 
-.custom-float-images .rosi-logo,
-.custom-float-images .obs-logo,
-.custom-float-images .icons-legend,
-.custom-float-images .polos-legend {
+/* Ajuste para garantir que as imagens fiquem em uma camada específica */
+.custom-float-images {
+    position: relative;
     z-index: 400;
+    pointer-events: none; /* Permite clicar através das imagens em áreas transparentes */
 }
 
+.custom-float-images img {
+    position: fixed;
+    z-index: inherit;
+    pointer-events: auto; /* Restaura interação apenas nas imagens */
+}
 
+/* Container específico para os popups */
+.leaflet-popup-pane {
+    position: absolute !important;
+    z-index: 1000 !important;
+}
+
+/* Estilos específicos para o popup */
+.leaflet-popup {
+    position: absolute !important;
+    z-index: 1000 !important;
+}
+
+.leaflet-popup-content-wrapper {
+    z-index: 1000 !important;
+}
+
+.leaflet-popup-content {
+    z-index: 1000 !important;
+}
+
+/* Garantir que o container de popups fique acima de tudo */
+.leaflet-pane.leaflet-popup-pane {
+    z-index: 1000 !important;
+}
+
+/* Estilização da tabela dentro do popup */
 .folium-map table {
     border-collapse: collapse;
     border: 1px solid rgba(255, 255, 255, 0);
     width: 100%;
+    position: relative;
+    z-index: 1000;
 }
 
 .folium-map thead {
@@ -50,14 +74,4 @@
 
 .folium-map tr {
     background-color: #262626;
-}
-
-
-.folium-map .leaflet-pane.leaflet-map-pane {
-    width: 100%;
-    height: 100%;
-}
-
-.folium-map .leaflet-popup {
-    position: absolute !important;
 }

@@ -1,45 +1,11 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const customFloatImages = document.querySelector('.custom-float-images');
-    const foliumMap = document.querySelector('.folium-map');
-    const map = window[$('[id^="map_"]').attr('id')];
-    
-    if (customFloatImages && foliumMap) {
-        foliumMap.appendChild(customFloatImages);
-    }
-
-
-    if (map) {
-        $('.folium-map').css({
-            'position': 'relative',
-            'isolation': 'isolate'
-        });
-        
-        $('.leaflet-popup-pane').css({
-            'position': 'relative',
-            'z-index': '9999999'
-        });
-
-        map.on('popupopen', function() {
-            $('.leaflet-popup').css({
-                'position': 'relative',
-                'z-index': '9999999'
-            });
-        });
-        map.on('popupopen', function() {
-            $('.leaflet-popup').css('z-index', '2000');
-           $('.leaflet-popup-content').css('z-index', '2000');
-            $('.leaflet-popup td').each(function() {
-                if ($(this).text().trim() === 'Sim') {
-                    $(this).css('backgroundColor', '#00A550');
-                }
-            });
-        });
-    }
-
-
-        if (map) {
-            // Coordenadas e zoom para cada UF
-            const ufBounds = {
+    // Configuração inicial do mapa e suas funcionalidades
+    class MapManager {
+        constructor() {
+            this.map = null;
+            this.customFloatImages = document.querySelector('.custom-float-images');
+            this.foliumMap = document.querySelector('.folium-map');
+            this.ufBounds = {
                 'Acre': { center: [-8.77, -70.55], zoom: 7 },
                 'Alagoas': { center: [-9.62, -36.82], zoom: 8 },
                 'Amazonas': { center: [-3.47, -65.10], zoom: 6 },
@@ -68,72 +34,173 @@ document.addEventListener('DOMContentLoaded', function() {
                 'São Paulo': { center: [-22.19, -48.79], zoom: 7 },
                 'Tocantins': { center: [-10.17, -48.33], zoom: 7 }
             };
-     
-            // Observer para monitorar mudanças no DOM
-            const observer = new MutationObserver(function(mutations) {
-                mutations.forEach(function(mutation) {
-                    if (mutation.addedNodes.length) {
-                        const firstTagContainer = $('.tag-filter-tags-container').first();
-                        if (firstTagContainer.length) {
-                            firstTagContainer.on('click', '.ripple', function() {
-                                const uf = $(this).data('value');
-                                console.log(uf)
-                                if (uf && ufBounds[uf]) {
-                                    map.setView(ufBounds[uf].center, ufBounds[uf].zoom, {
-                                        animate: true,
-                                        duration: 1
-                                    });
-                                }
-                            });
-                            observer.disconnect(); // Para de observar após encontrar e configurar
+            this.init();
+        }
+
+        async init() {
+            await this.waitForMap();
+            this.setupMapComponents();
+            this.setupEventListeners();
+        }
+
+        async waitForMap() {
+            return new Promise(resolve => {
+                const checkMap = setInterval(() => {
+                    // Usar jQuery para encontrar o ID do mapa e acessar o objeto do mapa
+                    const mapId = $('[id^="map_"]').attr('id');
+                    if (mapId && window[mapId]) {
+                        clearInterval(checkMap);
+                        this.map = window[mapId];
+                        console.log('Mapa encontrado:', this.map);
+                        resolve();
+                    } else {
+                        console.log('Aguardando mapa ser inicializado...');
+                    }
+                }, 100);
+            });
+        }
+
+
+        setupMapComponents() {
+            if (this.customFloatImages && this.foliumMap) {
+                this.foliumMap.appendChild(this.customFloatImages);
+                
+                // Configurar estilos das imagens flutuantes
+                const images = this.customFloatImages.querySelectorAll('img');
+                images.forEach(img => {
+                    img.style.pointerEvents = 'auto';
+                });
+                
+                this.customFloatImages.style.pointerEvents = 'none';
+                this.customFloatImages.style.position = 'relative';
+                this.customFloatImages.style.zIndex = '400';
+            }
+        
+            if (this.foliumMap) {
+                this.foliumMap.style.position = 'relative';
+                this.foliumMap.style.isolation = 'isolate';
+            }
+        }
+
+        setupEventListeners() {
+            // Configurar eventos do mapa
+            this.setupPopupEvents();
+            this.setupFilterEvents();
+            this.setupZoomEvents();
+        }
+
+        setupPopupEvents() {
+            this.map.on('popupopen', (e) => {
+                const popup = e.popup.getElement();
+                if (popup) {
+                    popup.style.position = 'absolute';
+                    popup.style.zIndex = '1000';
+                    
+                    // Garantir que o wrapper e o conteúdo também tenham z-index alto
+                    const contentWrapper = popup.querySelector('.leaflet-popup-content-wrapper');
+                    const content = popup.querySelector('.leaflet-popup-content');
+                    
+                    if (contentWrapper) contentWrapper.style.zIndex = '1000';
+                    // Colorir células com "Sim"
+                    const cells = popup.querySelectorAll('td');
+                    cells.forEach(cell => {
+                        
+                        if (cell.textContent.trim() === 'Sim') {
+                            console.log(cell.textContent.trim())
+                            cell.style.backgroundColor = '#00A550';
                         }
+                    });
+                }
+            });
+        }
+
+        async setupFilterEvents() {
+            // Aguardar o container de filtros ser carregado
+            const filterContainer = await this.waitForElement('.tag-filter-tags-container');
+            if (filterContainer) {
+                filterContainer.addEventListener('click', (e) => {
+                    const rippleElement = e.target.closest('.ripple');
+                    if (rippleElement && !rippleElement.closest('.header')) {
+                        const uf = rippleElement.getAttribute('data-value');
+                        this.zoomToState(uf);
                     }
                 });
-            });
-            // Começa a observar o documento
-            observer.observe(document.body, {
-                childList: true,
-                subtree: true
+            }
+        }
+
+        setupZoomEvents() {
+            this.map.on('zoomend', () => {
+                this.adjustIconSize();
             });
         }
-     
-     map.on('zoomend', adjustIconSize);
 
-     function adjustIconSize() {
-        var zoom = map.getZoom();
-        console.log(zoom)
-        var icons = document.getElementsByClassName('leaflet-marker-icon');
-        
-        for (var i = 0; i < icons.length; i++) {
-            var initialSize;
-            var finalSize;
+        zoomToState(uf) {
+            if (uf && this.ufBounds[uf]) {
+                this.map.setView(
+                    this.ufBounds[uf].center,
+                    this.ufBounds[uf].zoom,
+                    {
+                        animate: true,
+                        duration: 1
+                    }
+                );
+            }
+        }
+
+        adjustIconSize() {
+            const zoom = this.map.getZoom();
+            const icons = document.getElementsByClassName('leaflet-marker-icon');
             
-            // Define tamanhos iniciais baseado no tipo
-            if (icons[i].src.includes('Regional')) {
-                initialSize = 20;
-            } else if (icons[i].src.includes('Estadual')) {
-                initialSize = 25;
-            } else if (icons[i].src.includes('Nacional')) {
-                initialSize = 30;
-            } else if (icons[i].src.includes('Internacional')) {
-                initialSize = 35;
-            } else {
-                initialSize = 30;
-            }
-     
-            // Se zoom <= 5, mantém tamanho inicial
-            if (zoom >= 5) {
-                finalSize = initialSize;
-            } else {
-                // Senão, aplica o cálculo de escala
-                finalSize = initialSize * Math.pow(4, (zoom - 5) / 4);
-            }
-     
-            icons[i].style.width = finalSize + 'px';
-            icons[i].style.height = finalSize + 'px';
-            icons[i].style.marginLeft = -(finalSize/2) + 'px';
-            icons[i].style.marginTop = -(finalSize/2) + 'px';
+            Array.from(icons).forEach(icon => {
+                let initialSize = this.getInitialIconSize(icon.src);
+                let finalSize = this.calculateFinalSize(initialSize, zoom);
+                
+                icon.style.width = `${finalSize}px`;
+                icon.style.height = `${finalSize}px`;
+                icon.style.marginLeft = `${-(finalSize/2)}px`;
+                icon.style.marginTop = `${-(finalSize/2)}px`;
+            });
         }
-     }
-});
 
+        getInitialIconSize(iconSrc) {
+            if (iconSrc.includes('Regional')) return 20;
+            if (iconSrc.includes('Estadual')) return 25;
+            if (iconSrc.includes('Nacional')) return 30;
+            if (iconSrc.includes('Internacional')) return 35;
+            return 30;
+        }
+
+        calculateFinalSize(initialSize, zoom) {
+            if (zoom >= 5) return initialSize;
+            return initialSize * Math.pow(4, (zoom - 5) / 4);
+        }
+
+        async waitForElement(selector) {
+            return new Promise(resolve => {
+                if (document.querySelector(selector)) {
+                    return resolve(document.querySelector(selector));
+                }
+
+                const observer = new MutationObserver(() => {
+                    if (document.querySelector(selector)) {
+                        observer.disconnect();
+                        resolve(document.querySelector(selector));
+                    }
+                });
+
+                observer.observe(document.body, {
+                    childList: true,
+                    subtree: true
+                });
+            });
+        }
+    }
+
+    // Aguardar jQuery estar disponível antes de inicializar
+    const waitForJQuery = setInterval(() => {
+        if (window.jQuery) {
+            clearInterval(waitForJQuery);
+            new MapManager();
+        }
+    }, 100);
+});
