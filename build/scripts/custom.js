@@ -34,6 +34,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 'São Paulo': { center: [-22.19, -48.79], zoom: 7 },
                 'Tocantins': { center: [-10.17, -48.33], zoom: 7 }
             };
+
+            // Posição inicial do Brasil
+            this.defaultView = {
+                center: [-15.856, -47.856],
+                zoom: 5
+            };
             this.init();
         }
 
@@ -112,7 +118,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         async setupFilterEvents() {
-            // Tentar múltiplas vezes até encontrar o container
             const maxAttempts = 10;
             let attempts = 0;
             
@@ -123,25 +128,36 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (filterContainer) {
                     clearInterval(trySetupFilter);
     
-                    // Observar mudanças no container de filtros
                     const observer = new MutationObserver((mutations) => {
                         mutations.forEach((mutation) => {
                             if (mutation.type === 'childList') {
-                                const rippleElements = filterContainer.querySelectorAll('.ripple');
+                                // Configurar evento para o botão "Limpar filtros"
+                                const clearButton = filterContainer.querySelector('ul.header .ripple');
+                                if (clearButton && !clearButton.dataset.hasClickHandler) {
+                                    clearButton.dataset.hasClickHandler = 'true';
+                                    clearButton.addEventListener('click', () => {
+                                        this.zoomToBrazil();
+                                    });
+                                }
+
+                                // Configurar eventos para os estados
+                                const rippleElements = filterContainer.querySelectorAll('ul:not(.header) .ripple');
                                 rippleElements.forEach(element => {
                                     if (!element.dataset.hasClickHandler) {
                                         element.dataset.hasClickHandler = 'true';
-                                        element.addEventListener('click', (e) => {
-                                            if (!element.closest('.header')) {
-                                                // Verificar se o elemento está marcado
-                                                const isChecked = element.getAttribute('data-checked') === 'checked';
-                                                
-                                                if (isChecked) {
-                                                    const uf = element.getAttribute('data-value');
-                                                    if (uf && this.ufBounds[uf]) {
-                                                        this.zoomToState(uf);
-                                                    }
-                                                } 
+                                        element.addEventListener('click', () => {
+                                            // Verificar se há algum estado selecionado
+                                            const anyStateSelected = filterContainer.querySelectorAll('ul:not(.header) .ripple[data-checked="checked"]').length;
+                                            
+                                            if (anyStateSelected === 0) {
+                                                // Se não há estados selecionados, volta para visão do Brasil
+                                                this.zoomToBrazil();
+                                            } else {
+                                                // Se há estado selecionado e este foi o último clicado
+                                                const uf = element.getAttribute('data-value');
+                                                if (uf && this.ufBounds[uf] && element.getAttribute('data-checked') === 'checked') {
+                                                    this.zoomToState(uf);
+                                                }
                                             }
                                         });
                                     }
@@ -160,6 +176,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     clearInterval(trySetupFilter);
                 }
             }, 500);
+        }
+
+        zoomToBrazil() {
+            this.map.setView(
+                this.defaultView.center,
+                this.defaultView.zoom,
+                {
+                    animate: true,
+                    duration: 1
+                }
+            );
         }
 
         setupZoomEvents() {
