@@ -52,21 +52,21 @@
 }
 
 .folium-map td {
-    border: 7px solid rgba(255, 255, 255, 1);
+    border: 7px solid rgba(35, 35, 35, 1);
     padding: 8px;
     text-align: center;
-    background-color: #262626;
+    background-color: #232323;
 }
 
 .folium-map th {
-    border: 7px solid rgba(255, 255, 255, 1);
+    border: 7px solid rgba(35, 35, 35, 1);
     padding: 10px;
     text-align: center;
-    background-color: #090909;
+    background-color: #737373 !important;
 }
 
 .folium-map tr {
-    background-color: #262626;
+    background-color: #232323;
 }
 
 

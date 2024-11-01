@@ -62,11 +62,18 @@ df_merged['sk'] = df_merged['uf'] + '_' + df_merged['mesorregiao'] + '_' + df_me
 
 mapa = folium.Map([-15.856, -47.856], tiles=folium.TileLayer("Cartodb dark_matter", no_wrap = True), zoom_start=5)
 
-# Adiciona arquivos js externos.
+# Adiciona arquivos js externos. (arquivos dentro da pasta do projeto)
 mapa.get_root().header.add_child(folium.Element("""
     <link rel="stylesheet" href="styles/custom.css">
     <script defer src="scripts/custom.js"></script>
 """))
+
+# Adiciona arquivos js externos. (arquivos em um link publico )
+
+# mapa.get_root().header.add_child(folium.Element("""
+#     <link rel="stylesheet" href="https://bigdatastorageobs.blob.core.windows.net/containerobs/oni_polos/custom.css?sp=r&st=2024-10-31T18:31:46Z&se=2025-11-01T02:31:46Z&spr=https&sv=2022-11-02&sr=b&sig=iIRXm%2FXmFR1EHIYCqcdcprI9yPSqj8OI2bK4OykpRIk%3D">
+#     <script defer src="https://bigdatastorageobs.blob.core.windows.net/containerobs/oni_polos/custom.js?sp=r&st=2024-10-31T18:31:09Z&se=2025-11-01T02:31:09Z&spr=https&sv=2022-11-02&sr=b&sig=IFhv%2BueX7NXi0t%2BKiwH3jlAOf0FwGKpwJsfNVypM1Xs%3D"></script>
+# """))
 
 # Inserir uma imagem personalizada no mapa
 
@@ -222,6 +229,10 @@ for index, row in df_merged.iterrows():
 
     df_temporario.columns = ['Estado', 'Mesorregião', 'Arranjo Setorial', 'CNAE', 'Polo Regional', 'Polo Estadual', 'Polo Nacional', 'Polo Internacional']
 
+    # Fazer um sort com base nos arranjos
+
+    df_temporario = df_temporario.sort_values(by=['Polo Internacional', 'Polo Nacional', 'Polo Estadual', 'Polo Regional'], ascending=[False, False, False, False])
+
     # Transformar o df pandas em um df html
 
     df_html = df_temporario.to_html(classes = 'table table-condensed table-responsive', index = False)
@@ -257,9 +268,9 @@ for index, row in df_merged.iterrows():
         elif '_nacional' in var_name.lower():
             icon_size = (30, 30)
         elif 'internacional' in var_name.lower():
-            icon_size = (35, 35)
+            icon_size = (45, 45)
         else:
-            icon_size = (30, 30)
+            icon_size = (20, 20)
 
         # Criar o objeto CustomIcon
 

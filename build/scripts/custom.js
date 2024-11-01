@@ -110,7 +110,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     cells.forEach(cell => {
                         
                         if (cell.textContent.trim() === 'Sim') {
-                            cell.style.backgroundColor = '#00A550';
+                            cell.style.backgroundColor = '#5BD978';
+                        } else if (cell.textContent.trim() === 'Não') {
+                            cell.style.backgroundColor = '#444444'
                         }
                     });
                 }
@@ -227,8 +229,8 @@ document.addEventListener('DOMContentLoaded', function() {
             if (iconSrc.includes('Regional')) return 20;
             if (iconSrc.includes('Estadual')) return 25;
             if (iconSrc.includes('Nacional')) return 30;
-            if (iconSrc.includes('Internacional')) return 35;
-            return 30;
+            if (iconSrc.includes('Internacional')) return 45;
+            return 20;
         }
 
         calculateFinalSize(initialSize, zoom) {
@@ -264,4 +266,14 @@ document.addEventListener('DOMContentLoaded', function() {
             new MapManager();
         }
     }, 100);
+
+    $(document).ready(function() {
+        jQuery('.easy-button-button').click(function() {
+            var target = jQuery('.easy-button-button').not(this);
+            target.parent().find('.tag-filter-tags-container').css({
+                'display' : 'none',
+            });
+        });
+    });
+    
 });
