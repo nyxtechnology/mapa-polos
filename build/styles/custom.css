@@ -40,6 +40,7 @@
     border-collapse: collapse;
     border: 1px solid rgba(255, 255, 255, 0);
     width: 100%;
+    margin-bottom: 0px;
 }
 
 .folium-map thead {
@@ -56,6 +57,11 @@
     padding: 8px;
     text-align: center;
     background-color: #232323;
+    vertical-align: middle;
+}
+
+.folium-map th {
+    vertical-align: middle  ;
 }
 
 .folium-map th {
@@ -112,4 +118,24 @@
 
 .folium-map .leaflet-bar .tag-filter-tags-container {
     left: 50px;
+}
+
+.folium-map .leaflet-container a.leaflet-popup-close-button {
+    display: none;
+}
+
+.folium-map .leaflet-popup-content-wrapper {
+    padding: 0;
+}
+
+.folium-map .leaflet-popup-content {
+    margin: 0;
+}
+
+.folium-map .leaflet-fade-anim .leaflet-map-pane .leaflet-popup {
+    padding-left: 45px;
+}
+
+.folium-map .leaflet-popup-tip {
+    background-color: rgba(35, 35, 35, 1);
 }

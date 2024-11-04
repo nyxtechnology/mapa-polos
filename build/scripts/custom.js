@@ -111,8 +111,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         
                         if (cell.textContent.trim() === 'Sim') {
                             cell.style.backgroundColor = '#5BD978';
+                            cell.style.fontSize = '1.3em';
+                            cell.style.fontWeight = 'bold';
                         } else if (cell.textContent.trim() === 'Não') {
                             cell.style.backgroundColor = '#444444'
+                            cell.style.fontSize = '1em';
+                            cell.style.fontWeight = 'normal';
                         }
                     });
                 }
