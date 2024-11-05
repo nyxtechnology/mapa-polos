@@ -63,17 +63,18 @@ df_merged['sk'] = df_merged['uf'] + '_' + df_merged['mesorregiao'] + '_' + df_me
 mapa = folium.Map([-15.856, -47.856], tiles=folium.TileLayer("Cartodb dark_matter", no_wrap = True), zoom_start=5)
 
 # Adiciona arquivos js externos. (arquivos dentro da pasta do projeto)
-mapa.get_root().header.add_child(folium.Element("""
-    <link rel="stylesheet" href="styles/custom.css">
-    <script defer src="scripts/custom.js"></script>
-"""))
+
+# mapa.get_root().header.add_child(folium.Element("""
+#     <link rel="stylesheet" href="styles/custom.css">
+#     <script defer src="scripts/custom.js"></script>
+# """))
 
 # Adiciona arquivos js externos. (arquivos em um link publico )
 
-# mapa.get_root().header.add_child(folium.Element("""
-#     <link rel="stylesheet" href="https://bigdatastorageobs.blob.core.windows.net/containerobs/oni_polos/custom.css?sp=r&st=2024-10-31T18:31:46Z&se=2025-11-01T02:31:46Z&spr=https&sv=2022-11-02&sr=b&sig=iIRXm%2FXmFR1EHIYCqcdcprI9yPSqj8OI2bK4OykpRIk%3D">
-#     <script defer src="https://bigdatastorageobs.blob.core.windows.net/containerobs/oni_polos/custom.js?sp=r&st=2024-10-31T18:31:09Z&se=2025-11-01T02:31:09Z&spr=https&sv=2022-11-02&sr=b&sig=IFhv%2BueX7NXi0t%2BKiwH3jlAOf0FwGKpwJsfNVypM1Xs%3D"></script>
-# """))
+mapa.get_root().header.add_child(folium.Element("""
+    <link rel="stylesheet" href="https://bigdatastorageobs.blob.core.windows.net/containerobs/oni_polos/custom.css?sp=r&st=2024-10-31T18:31:46Z&se=2025-11-01T02:31:46Z&spr=https&sv=2022-11-02&sr=b&sig=iIRXm%2FXmFR1EHIYCqcdcprI9yPSqj8OI2bK4OykpRIk%3D">
+    <script defer src="https://bigdatastorageobs.blob.core.windows.net/containerobs/oni_polos/custom.js?sp=r&st=2024-10-31T18:31:09Z&se=2025-11-01T02:31:09Z&spr=https&sv=2022-11-02&sr=b&sig=IFhv%2BueX7NXi0t%2BKiwH3jlAOf0FwGKpwJsfNVypM1Xs%3D"></script>
+"""))
 
 # Inserir uma imagem personalizada no mapa
 
@@ -88,17 +89,42 @@ logo_obs = 'https://bigdatastorageobs.blob.core.windows.net/containerobs/oni_pol
 
 # Adicione uma classe personalizada para cada imagem
 # Substitua os FloatImage por um template personalizado
-custom_image_html = f"""
-<div class="custom-float-images">
-    <img src="{logo_rosi}" class="rosi-logo" style="position: fixed; top: 88px; left: 80px; width: 300px; height: auto;">
-    <img src="{logo_obs}" class="obs-logo" style="position: fixed; top: 25px; right: 180px; width: 300px; height: auto;">
-    <img src="{logo_legenda_icones}" class="icons-legend" style="position: fixed; bottom: 8px; right: 78px; height: 780px; width: auto; ">
-    <img src="{logo_legenda_polos}" class="polos-legend" style="position: fixed; bottom: 5px; left: 0; height: 300px; width: auto; ">
-</div>
-"""
+# custom_image_html = f"""
+# <div class="custom-float-images">
+#     <img src="{logo_rosi}" class="rosi-logo" style="position: fixed; top: 88px; left: 80px; width: 300px; height: auto;">
+#     <img src="{logo_obs}" class="obs-logo" style="position: fixed; top: 25px; right: 180px; width: 300px; height: auto;">
+#     <img src="{logo_legenda_icones}" class="icons-legend" style="position: fixed; bottom: 8px; right: 78px; height: 780px; width: auto; ">
+#     <img src="{logo_legenda_polos}" class="polos-legend" style="position: fixed; bottom: 5px; left: 0; height: 300px; width: auto; ">
+# </div>
+# """
+
+folium.raster_layers.ImageOverlay(
+    name = "Legenda dos setores",
+    image =logo_legenda_icones,
+    bounds = [[-33.3122, -27.5098], [-5.1754, -15.0293]]
+).add_to(mapa)
+
+folium.raster_layers.ImageOverlay(
+    name = "Legenda dos polos",
+    image =logo_legenda_polos,
+    bounds = [[-32.7688, -45.7031], [-23.712, -28.0811]]
+).add_to(mapa)
+
+# folium.raster_layers.ImageOverlay(
+#     name = "teste",
+#     image =logo_legenda_icones,
+#     bounds = [[-33.8704, -33.2227], [0, -4.2500]]
+# ).add_to(mapa)
+
+# folium.raster_layers.ImageOverlay(
+#     name = "teste",
+#     image =logo_legenda_icones,
+#     bounds = [[-33.8704, -33.2227], [0, -4.2500]]
+# ).add_to(mapa)
+
 
 # Adicione ao mapa
-mapa.get_root().html.add_child(folium.Element(custom_image_html))
+# mapa.get_root().html.add_child(folium.Element(custom_image_html))
 # Inserir o botao de tela cheia
 
 folium.plugins.Fullscreen(
