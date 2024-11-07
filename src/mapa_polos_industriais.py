@@ -89,26 +89,26 @@ logo_obs = 'https://bigdatastorageobs.blob.core.windows.net/containerobs/oni_pol
 
 # Adicione uma classe personalizada para cada imagem
 # Substitua os FloatImage por um template personalizado
-# custom_image_html = f"""
-# <div class="custom-float-images">
-#     <img src="{logo_rosi}" class="rosi-logo" style="position: fixed; top: 88px; left: 80px; width: 300px; height: auto;">
-#     <img src="{logo_obs}" class="obs-logo" style="position: fixed; top: 25px; right: 180px; width: 300px; height: auto;">
-#     <img src="{logo_legenda_icones}" class="icons-legend" style="position: fixed; bottom: 8px; right: 78px; height: 780px; width: auto; ">
-#     <img src="{logo_legenda_polos}" class="polos-legend" style="position: fixed; bottom: 5px; left: 0; height: 300px; width: auto; ">
-# </div>
-# """
+custom_image_html = f"""
+<div class="custom-float-images">
+    <img src="{logo_rosi}" class="rosi-logo" style="position: fixed; top: 55px; right: 270px; width: 200px; height: auto;">
+    <img src="{logo_obs}" class="obs-logo" style="position: fixed; top: 60px; right: 50px; width: 200px; height: auto;">
+    <img src="{logo_legenda_icones}" class="icons-legend" style="position: fixed; bottom: 8px; right: 78px; height: 780px; width: auto; ">
+    <img src="{logo_legenda_polos}" class="polos-legend" style="position: fixed; bottom: 5px; left: 1000px; height: 300px; width: auto; ">
+</div>
+"""
 
-folium.raster_layers.ImageOverlay(
-    name = "Legenda dos setores",
-    image =logo_legenda_icones,
-    bounds = [[-33.3122, -27.5098], [-5.1754, -15.0293]]
-).add_to(mapa)
+# folium.raster_layers.ImageOverlay(
+#     name = "Legenda dos setores",
+#     image =logo_legenda_icones,
+#     bounds = [[-33.3122, -27.5098], [-5.1754, -15.0293]]
+# ).add_to(mapa)
 
-folium.raster_layers.ImageOverlay(
-    name = "Legenda dos polos",
-    image =logo_legenda_polos,
-    bounds = [[-32.7688, -45.7031], [-23.712, -28.0811]]
-).add_to(mapa)
+# folium.raster_layers.ImageOverlay(
+#     name = "Legenda dos polos",
+#     image =logo_legenda_polos,
+#     bounds = [[-32.7688, -45.7031], [-23.712, -28.0811]]
+# ).add_to(mapa)
 
 # folium.raster_layers.ImageOverlay(
 #     name = "teste",
@@ -124,7 +124,7 @@ folium.raster_layers.ImageOverlay(
 
 
 # Adicione ao mapa
-# mapa.get_root().html.add_child(folium.Element(custom_image_html))
+mapa.get_root().html.add_child(folium.Element(custom_image_html))
 # Inserir o botao de tela cheia
 
 folium.plugins.Fullscreen(
@@ -316,4 +316,4 @@ for index, row in df_merged.iterrows():
 
 #### Salvar o arquivo html do mapa ####
 
-mapa.save("./build/polos_teste_mapa_interativo_teste.html")
+mapa.save("./build/polos_industriais_mapa_interativo.html")
