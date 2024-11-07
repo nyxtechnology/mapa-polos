@@ -1,3 +1,4 @@
+/* INICIA LAYOUT DOS FILTROS */
 .folium-map .leaflet-bar .tag-filter-tags-container ul.header, 
 .folium-map .leaflet-bar .tag-filter-tags-container ul {
     width: unset !important;
@@ -23,19 +24,13 @@
 .folium-map .leaflet-bar .tag-filter-tags-container ul li span {
     color: black;
 }
+/* FIM LAYOUT DOS FILTROS */
 
 .folium-map {
     position: relative !important;
 }
 
-.custom-float-images .rosi-logo,
-.custom-float-images .obs-logo,
-.custom-float-images .icons-legend,
-.custom-float-images .polos-legend {
-    z-index: 400;
-}
-
-
+/* INICIO ESTILO DA TABELA DO POPUP */
 .folium-map table {
     border-collapse: collapse;
     border: 1px solid rgba(255, 255, 255, 0);
@@ -74,7 +69,7 @@
 .folium-map tr {
     background-color: #232323;
 }
-
+/* FIM ESTILO DA TABELA DO POPUP */
 
 .folium-map .leaflet-pane.leaflet-map-pane {
     width: 100%;
@@ -85,7 +80,7 @@
     position: absolute !important;
 }
 
-
+/* INICIO ESTILO PARA ADICIONAR LABEL NOS BOTOES DE FILTRO */
 .folium-map .easy-button-button::after {
     content: "Polos";
     display: inline-block;
@@ -132,6 +127,10 @@
     margin: 0;
 }
 
+/* FIM ESTILO PARA ADICIONAR LABEL NOS BOTOES DE FILTRO */
+
+/* INICIO ESTILO PARA TIRAR A BORDA DO POPUP */
+
 .folium-map .leaflet-fade-anim .leaflet-map-pane .leaflet-popup {
     padding-left: 45px;
 }
@@ -139,3 +138,5 @@
 .folium-map .leaflet-popup-tip {
     background-color: rgba(35, 35, 35, 1);
 }
+
+/* FIM ESTILO PARA TIRAR A BORDA DO POPUP */

@@ -2,9 +2,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Configuração inicial do mapa e suas funcionalidades
     class MapManager {
         constructor() {
+            // Defini as variaveis inicieis que serão utilizas no projeto.
             this.map = null;
+            // Imagens da interface
             this.customFloatImages = document.querySelector('.custom-float-images');
+            // Div do foliummap
             this.foliumMap = document.querySelector('.folium-map');
+            // Posições dos estados para dar o zoom.
             this.ufBounds = {
                 'Acre': { center: [-8.77, -70.55], zoom: 7 },
                 'Alagoas': { center: [-9.62, -36.82], zoom: 8 },
@@ -44,12 +48,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         async init() {
+            // Await aguarda a promessa do mapa ser carregado para então iniciar as funcionalidades.
             await this.waitForMap();
             this.setupMapComponents();
             await this.setupFilterEvents();
             this.setupEventListeners();
         }
 
+        /**
+         * Retorna uma promessa que o mapa sera carregado.
+         * 
+         * @returns Promise
+         */
         async waitForMap() {
             return new Promise(resolve => {
                 const checkMap = setInterval(() => {
@@ -66,6 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
         setupMapComponents() {
+            // Adiciona as imagens dentro da div do mapa, para quando der zoom ele continue aparecendo
             if (this.customFloatImages && this.foliumMap) {
                 this.foliumMap.appendChild(this.customFloatImages);
                 
@@ -94,6 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         setupPopupEvents() {
+            // Ao abrir um popup, para ele colorir as celulas de verde na tabela.
             this.map.on('popupopen', (e) => {
                 const popup = e.popup.getElement();
                 if (popup) {
@@ -137,7 +149,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const observer = new MutationObserver((mutations) => {
                         mutations.forEach((mutation) => {
                             if (mutation.type === 'childList') {
-                                // Configurar evento para o botão "Limpar filtros"
+                                // Configurar evento para o botão "Limpar filtros", ele volta o zoom para o mapa do Brasil
                                 const clearButton = filterContainer.querySelector('ul.header .ripple');
                                 if (clearButton && !clearButton.dataset.hasClickHandler) {
                                     clearButton.dataset.hasClickHandler = 'true';
@@ -146,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     });
                                 }
 
-                                // Configurar eventos para os estados
+                                // Configurar eventos para os estados, assim quando clicados o foco vai sobre eles
                                 const rippleElements = filterContainer.querySelectorAll('ul:not(.header) .ripple');
                                 rippleElements.forEach(element => {
                                     if (!element.dataset.hasClickHandler) {
@@ -172,6 +184,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         });
                     });
     
+                    // O observer é utilizado para monitorar alterações no html. 
+                    // Os filtros demoram ser carregados, por isso foi inserido ess observer
                     observer.observe(filterContainer, {
                         childList: true,
                         subtree: true
@@ -215,6 +229,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         adjustIconSize() {
+            // Essa função utiliza o zoom para calcular o tamanho dos icones.
+            // Se é removido o zoom, os icones ficam menores. Se for dado mais zoom acima de 5 eles mantem os valores iniciais
             const zoom = this.map.getZoom();
             const icons = document.getElementsByClassName('leaflet-marker-icon');
             
@@ -229,6 +245,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
+        // Valores iniciais do tamanho dos icones dos polos.
         getInitialIconSize(iconSrc) {
             if (iconSrc.includes('Regional')) return 20;
             if (iconSrc.includes('Estadual')) return 25;
@@ -237,30 +254,12 @@ document.addEventListener('DOMContentLoaded', function() {
             return 20;
         }
 
+        // Calcula o tamanho dos icones a partir do zoom.
         calculateFinalSize(initialSize, zoom) {
             if (zoom >= 5) return initialSize;
             return initialSize * Math.pow(4, (zoom - 5) / 4);
         }
 
-        async waitForElement(selector) {
-            return new Promise(resolve => {
-                if (document.querySelector(selector)) {
-                    return resolve(document.querySelector(selector));
-                }
-
-                const observer = new MutationObserver(() => {
-                    if (document.querySelector(selector)) {
-                        observer.disconnect();
-                        resolve(document.querySelector(selector));
-                    }
-                });
-
-                observer.observe(document.body, {
-                    childList: true,
-                    subtree: true
-                });
-            });
-        }
     }
 
     // Aguardar jQuery estar disponível antes de inicializar
@@ -271,6 +270,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }, 100);
 
+    // Esta função fecha o menu quando outro é aberto.
     $(document).ready(function() {
         jQuery('.easy-button-button').click(function() {
             var target = jQuery('.easy-button-button').not(this);
