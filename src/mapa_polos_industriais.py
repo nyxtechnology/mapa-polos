@@ -72,8 +72,8 @@ mapa = folium.Map([-15.856, -47.856], tiles=folium.TileLayer("Cartodb dark_matte
 # Adiciona arquivos js externos. (arquivos em um link publico )
 
 mapa.get_root().header.add_child(folium.Element("""
-    <link rel="stylesheet" href="https://bigdatastorageobs.blob.core.windows.net/containerobs/oni_polos/custom.css?sp=r&st=2024-10-31T18:31:46Z&se=2025-11-01T02:31:46Z&spr=https&sv=2022-11-02&sr=b&sig=iIRXm%2FXmFR1EHIYCqcdcprI9yPSqj8OI2bK4OykpRIk%3D">
-    <script defer src="https://bigdatastorageobs.blob.core.windows.net/containerobs/oni_polos/custom.js?sp=r&st=2024-10-31T18:31:09Z&se=2025-11-01T02:31:09Z&spr=https&sv=2022-11-02&sr=b&sig=IFhv%2BueX7NXi0t%2BKiwH3jlAOf0FwGKpwJsfNVypM1Xs%3D"></script>
+    <link rel="stylesheet" href="./styles/custom.css?sp=r&st=2024-10-31T18:31:46Z&se=2025-11-01T02:31:46Z&spr=https&sv=2022-11-02&sr=b&sig=iIRXm%2FXmFR1EHIYCqcdcprI9yPSqj8OI2bK4OykpRIk%3D">
+    <script defer src="./scripts/custom.js?sp=r&st=2024-10-31T18:31:09Z&se=2025-11-01T02:31:09Z&spr=https&sv=2022-11-02&sr=b&sig=IFhv%2BueX7NXi0t%2BKiwH3jlAOf0FwGKpwJsfNVypM1Xs%3D"></script>
 """))
 
 # Inserir uma imagem personalizada no mapa
@@ -91,10 +91,10 @@ logo_obs = 'https://bigdatastorageobs.blob.core.windows.net/containerobs/oni_pol
 # Substitua os FloatImage por um template personalizado
 custom_image_html = f"""
 <div class="custom-float-images">
-    <img src="{logo_rosi}" class="rosi-logo" style="position: fixed; top: 55px; right: 270px; width: 200px; height: auto;">
-    <img src="{logo_obs}" class="obs-logo" style="position: fixed; top: 60px; right: 50px; width: 200px; height: auto;">
-    <img src="{logo_legenda_icones}" class="icons-legend" style="position: fixed; bottom: 8px; right: 78px; height: 780px; width: auto; ">
-    <img src="{logo_legenda_polos}" class="polos-legend" style="position: fixed; bottom: 5px; left: 1000px; height: 300px; width: auto; ">
+    <img src="{logo_rosi}" class="rosi-logo">
+    <img src="{logo_obs}" class="obs-logo">
+    <img src="{logo_legenda_icones}" class="icons-legend">
+    <img src="{logo_legenda_polos}" class="polos-legend">
 </div>
 """
 

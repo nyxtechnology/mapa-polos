@@ -140,3 +140,38 @@
 }
 
 /* FIM ESTILO PARA TIRAR A BORDA DO POPUP */
+
+/* ESTILO IMAGENS DE INTERFACE */
+.folium-map .rosi-logo {
+    position: fixed; 
+    top: 55px; 
+    right: 18vw;
+    width: auto; 
+    height: 5vh;
+}
+
+.folium-map .obs-logo {
+    position: fixed; 
+    top: 60px; 
+    right: 3vw; 
+    width: auto; 
+    height: 4vh;
+}
+
+.folium-map .icons-legend {
+    position: fixed; 
+    bottom: 8px; 
+    right: 78px; 
+    height: 80%; 
+    width: auto;
+}
+
+.folium-map .polos-legend {
+    position: fixed; 
+    bottom: 5px;
+    left: 15px;
+    height: 30%;
+    width: auto;
+}
+
+/* FIM ESTILO IMAGENS DE INTERFACE */
