@@ -28,6 +28,7 @@
 
 .folium-map {
     position: relative !important;
+    background-color: rgba(35, 35, 35, 1) !important;
 }
 
 /* INICIO ESTILO DA TABELA DO POPUP */
